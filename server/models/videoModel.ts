@@ -15,6 +15,10 @@ const videoModel = dynamoose.model(
             type: String,
             required: true,
         },
+        thumbnail: {
+            type: String,
+            required: true,
+        },
         storgeBucketKey: {
             type: String,
             required: true,

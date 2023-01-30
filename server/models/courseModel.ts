@@ -20,6 +20,10 @@ const courseModel = dynamoose.model(
             type: String,
             required: true,
         },
+        thumbnail: {
+            type: String,
+            required: true,
+        },
         videoIds: {
             type: [String],
         },
