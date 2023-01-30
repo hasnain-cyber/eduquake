@@ -5,7 +5,7 @@ const courseModel = dynamoose.model(
     'Course',
     new dynamoose.Schema({
         id: {
-            type: Number,
+            type: String,
             hashKey: true,
         },
         name: {
