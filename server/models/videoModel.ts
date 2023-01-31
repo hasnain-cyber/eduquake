@@ -4,7 +4,7 @@ const videoModel = dynamoose.model(
     'Video',
     new dynamoose.Schema({
         id: {
-            type: Number,
+            type: String,
             hashKey: true,
         },
         title: {
@@ -15,11 +15,11 @@ const videoModel = dynamoose.model(
             type: String,
             required: true,
         },
-        thumbnail: {
+        thumbnailStorageBucketKey: {
             type: String,
             required: true,
         },
-        storgeBucketKey: {
+        videoStorageBucketKey: {
             type: String,
             required: true,
         },

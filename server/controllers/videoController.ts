@@ -1,18 +1,29 @@
 import { Request, Response } from "express";
 import videoModel from "../models/videoModel";
+import crypto from "crypto";
 
 const getAllVideos = async (req: Request, res: Response) => {
     const videos = await videoModel.scan().exec();
     res.status(200).json(videos);
 }
-    
+
 const createVideo = async (req: Request, res: Response) => {
-    const video = new videoModel({
-        id: crypto.randomUUID(),
-        ...req.body
-    });
-    const newVideo = await video.save();
-    res.status(201).json(newVideo);
+    // if both the thumbnail and video are uploaded
+    const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+    if (Object.keys(files).length === 2) {
+        const thumbnailStorageBucketKey = files['thumbnail'][0] as any;
+        const videoStorageBucketKey = files['video'][0] as any;
+        const video = await videoModel.create({
+            id: crypto.randomUUID(),
+            title: req.body.title,
+            description: req.body.description,
+            thumbnailStorageBucketKey: thumbnailStorageBucketKey.key,
+            videoStorageBucketKey: videoStorageBucketKey.key,
+        });
+        res.status(201).json(video);
+    } else {
+        res.status(400).json({ message: 'Internal server error! Please try again later.' });
+    }
 }
 
 const getVideoById = async (req: Request, res: Response) => {
